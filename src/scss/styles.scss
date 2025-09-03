@@ -38,6 +38,7 @@ body {
   background-color: lightgray;
   height: 40px;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .input-group-text {
@@ -54,6 +55,12 @@ body {
   width: 70%;
 }
 
+.dropdown-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 input:focus,
 textarea:focus,
 select:focus {
@@ -68,16 +75,18 @@ select:focus {
   padding: 5px 0;
 }
 
-#check-all-button {
+#check-all-button, #delete-all-button, #add-task-button, #clear-completed-button {
+  width: 135px;
   display: flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
-#clear-completed-button {
+.modal-header {
   display: flex;
+  justify-content: center;
   align-items: center;
-  cursor: pointer;
 }
 
 .tasks-container {
@@ -100,6 +109,10 @@ select:focus {
   height: 15px;
   border-radius: 50%;
   margin: 5px;
+}
+
+.task-priority {
+  margin-bottom: 0;
 }
 
 .not-started {
@@ -163,7 +176,7 @@ select:focus {
 }
 
 .bold {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .color-red {
