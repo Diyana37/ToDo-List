@@ -1,5 +1,5 @@
 import * as bootstrap from "bootstrap";
-import { AddTaskInModal, AddTasksInHTML, saveTasks } from "./tasks-service.js";
+import { AddTaskInModal, saveTasks } from "./tasks-service.js";
 import { cleanSlate } from "./utils.js";
 
 const addModal = new bootstrap.Modal(
@@ -49,7 +49,6 @@ export function attachEventListenersToButtonsAndDropDowns() {
     AddTaskInModal(selectedPriority, selectedStatus);
     addModal.hide();
     cleanSlate();
-    // AddTasksInHTML();
     saveTasks();
   });
 

@@ -111,6 +111,11 @@ select:focus {
   margin: 5px;
 }
 
+.task-buttons-div {
+  display: flex;
+  column-gap: 10px;
+}
+
 .task-priority {
   margin-bottom: 0;
 }
