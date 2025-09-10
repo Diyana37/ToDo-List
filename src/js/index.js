@@ -1,4 +1,8 @@
 import "../scss/styles.scss";
-import { attachEventListenersToButtonsAndDropDowns } from "./event-listeners.js";
+import { attachEventListenersToMenuButtonsAndFooterLinks } from "./event-listeners.js";
+import { loadTasks } from "./tasks-service.js";
+import { renderTasksInHTML } from "./tasks-view.js";
 
-attachEventListenersToButtonsAndDropDowns();
+loadTasks();
+attachEventListenersToMenuButtonsAndFooterLinks();
+renderTasksInHTML();
