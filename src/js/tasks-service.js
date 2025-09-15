@@ -14,9 +14,7 @@ export function getNewId() {
 }
 
 export const addTask = (task) => {
-  const newId = getNewId();
-
-  tasks.push({ ...task, id: newId });
+  tasks.push(task);
 };
 
 export const saveTasks = () => {
@@ -40,11 +38,17 @@ export function addTaskInModal(priority, status) {
     return;
   }
 
-  let task = new Task(title.value, priority, status);
+  const newId = getNewId();
+  let task = new Task(newId, title.value, priority, status);
 
-  addTask({ title: task.title, priority: task.priority, status: task.status });
+  addTask({
+    id: task.id,
+    title: task.title,
+    priority: task.priority,
+    status: task.status,
+  });
 
-  addTasksInHTML(title.value, task.priority, task.status);
+  addTasksInHTML(task.id, task.title, task.priority, task.status);
 
   getStatistics();
 }
