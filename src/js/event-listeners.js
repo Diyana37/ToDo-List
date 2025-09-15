@@ -1,6 +1,7 @@
 import * as bootstrap from "bootstrap";
 import { addTaskInModal, saveTasks } from "./tasks-service.js";
-import { cleanSlate, completeAllTasks, deleteAllTasks, showCompletedTasks } from "./utils.js";
+import { cleanSlate, completeAllTasks, deleteAllTasks, getStatistics, removeTaskClasses } from "./utils.js";
+import { renderCompletedTasksInHTML, renderInProgressTasksInHTML, renderNotStartedTasksInHTML } from "./tasks-view.js";
 
 const addModal = new bootstrap.Modal(document.querySelector("#add-task-modal"));
 
@@ -31,9 +32,24 @@ export function attachEventListenersToMenuButtonsAndFooterLinks() {
     btn.addEventListener("click", function (e) {
       const buttonId = e.target.getAttribute("id");
 
-      if (buttonId === "show-completed") {
-        // showCompletedTasks();
+      if (buttonId === "show-all") {
+        localStorage.setItem("selectedStatus", "All");
+        removeTaskClasses();
+      } else if (buttonId === "show-completed") {
+        localStorage.setItem("selectedStatus", "Completed");
+        removeTaskClasses();
+        renderCompletedTasksInHTML();
+      } else if (buttonId === "show-in-progress") {
+        localStorage.setItem("selectedStatus", "In-Progress");
+        removeTaskClasses();
+        renderInProgressTasksInHTML();
+      } else if (buttonId === "show-not-started") {
+        localStorage.setItem("selectedStatus", "Not-Started");
+        removeTaskClasses();
+        renderNotStartedTasksInHTML();
       }
+
+      getStatistics();
     });
   });
 }

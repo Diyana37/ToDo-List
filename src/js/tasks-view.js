@@ -1,10 +1,12 @@
-import { getNewId, tasks } from "./tasks-service.js";
+import { tasks } from "./tasks-service.js";
+import { getStatistics } from "./utils.js";
 
-export function addTasksInHTML(title, priority, status) {
+export function addTasksInHTML(id, title, priority, status) {
   const tasksContainer = document.querySelector(".tasks-container");
 
   const taskCard = document.createElement("div");
-  const newId = getNewId();
+  const newId = id;
+
   taskCard.setAttribute("id", `t${newId}`);
   taskCard.classList.add("task-card");
 
@@ -65,6 +67,12 @@ export function addTasksInHTML(title, priority, status) {
                 d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
             </svg>`;
 
+  const selectedStatus = localStorage.getItem("selectedStatus");
+
+  if (!(selectedStatus === "All" || selectedStatus === status)) {
+    taskCard.classList.add("hide-element");
+  }
+
   if (tasksContainer) {
     tasksContainer.appendChild(taskCard);
   }
@@ -81,7 +89,38 @@ export function addTasksInHTML(title, priority, status) {
 }
 
 export function renderTasksInHTML() {
-  tasks.forEach(task => {
-    addTasksInHTML(task.title, task.priority, task.status);
+  localStorage.setItem("selectedStatus", "All");
+
+  tasks.forEach((task) => {
+    addTasksInHTML(task.id, task.title, task.priority, task.status);
+  });
+
+  getStatistics();
+}
+
+export function renderCompletedTasksInHTML() {
+  tasks.forEach((task) => {
+    if (task.status !== "Completed") {
+      const taskDOM = document.querySelector(`#t${task.id.toString()}`);
+      taskDOM.classList.add("hide-element");
+    }
+  });
+}
+
+export function renderInProgressTasksInHTML() {
+  tasks.forEach((task) => {
+    if (task.status !== "In-Progress") {
+      const taskDOM = document.querySelector(`#t${task.id.toString()}`);
+      taskDOM.classList.add("hide-element");
+    }
+  });
+}
+
+export function renderNotStartedTasksInHTML() {
+  tasks.forEach((task) => {
+    if (task.status !== "Not-Started") {
+      const taskDOM = document.querySelector(`#t${task.id.toString()}`);
+      taskDOM.classList.add("hide-element");
+    }
   });
 }

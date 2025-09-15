@@ -1,8 +1,12 @@
-import { clearTasks, tasks } from "./tasks-service.js";
+import { clearTasks } from "./tasks-service.js";
 
 export function getStatistics() {
   const tasksCount = document.querySelector("#task-left-count");
-  tasksCount.textContent = tasks.length;
+  const tasksAll = Array.from(document.querySelectorAll(".task-card"));
+
+  tasksCount.textContent = tasksAll.filter(
+    (task) => !task.classList.contains("hide-element")
+  ).length;
 }
 
 export function cleanSlate() {
@@ -17,12 +21,13 @@ export function cleanSlate() {
 
 export function deleteAllTasks() {
   clearTasks();
-  getStatistics();
 
   const parent = document.querySelector(".tasks-parent-container");
   const tasksContainer = document.querySelector(".tasks-container");
 
   parent.removeChild(tasksContainer);
+
+  getStatistics();
 
   const tasksContainerNew = document.createElement("div");
   tasksContainerNew.setAttribute("id", "show-all");
@@ -37,7 +42,10 @@ export function deleteAllTasks() {
 //   });
 // }
 
-// export function showCompletedTasks() {
-//   const resultArray = tasks.filter((task) => task._status === "Completed")
-//   console.log(resultArray);
-// }
+export function removeTaskClasses() {
+  const tasksAll = Array.from(document.querySelectorAll(".task-card"));
+
+  tasksAll.forEach((task) => {
+    task.classList.remove("hide-element");
+  });
+}

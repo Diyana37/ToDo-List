@@ -1,8 +1,17 @@
 export class Task {
-  constructor(title, priority, status) {
+  constructor(id, title, priority, status) {
+    this.id = id;
     this.title = title;
     this.priority = priority;
     this.status = status;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  set id(value) {
+    this._id = value;
   }
   
   get title() {
