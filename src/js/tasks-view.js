@@ -50,7 +50,7 @@ export function addTasksInHTML(id, title, priority, status) {
   const editButton = document.createElement("button");
   editButton.setAttribute("id", `edit-task-${newId}`);
   editButton.setAttribute("type", "button");
-  editButton.classList.add("btn", "btn-warning");
+  editButton.classList.add("btn", "btn-warning", "edit-task");
   const editButtonIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
               viewBox="0 0 16 16">
               <path
@@ -60,7 +60,7 @@ export function addTasksInHTML(id, title, priority, status) {
   const deleteButton = document.createElement("button");
   deleteButton.setAttribute("id", `delete-task-${newId}`);
   deleteButton.setAttribute("type", "button");
-  deleteButton.classList.add("btn", "btn-danger");
+  deleteButton.classList.add("btn", "btn-danger", "delete-task");
   const deleteButtonIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
               viewBox="0 0 16 16">
               <path

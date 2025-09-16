@@ -1,7 +1,18 @@
 import * as bootstrap from "bootstrap";
 import { addTaskInModal, saveTasks } from "./tasks-service.js";
-import { cleanSlate, completeAllTasks, deleteAllTasks, getStatistics, removeTaskClasses } from "./utils.js";
-import { renderCompletedTasksInHTML, renderInProgressTasksInHTML, renderNotStartedTasksInHTML } from "./tasks-view.js";
+import {
+  cleanSlate,
+  clearCompletedTasks,
+  completeAllTasks,
+  deleteAllTasks,
+  getStatistics,
+  removeTaskClasses,
+} from "./utils.js";
+import {
+  renderCompletedTasksInHTML,
+  renderInProgressTasksInHTML,
+  renderNotStartedTasksInHTML,
+} from "./tasks-view.js";
 
 const addModal = new bootstrap.Modal(document.querySelector("#add-task-modal"));
 
@@ -18,10 +29,13 @@ export function attachEventListenersToMenuButtonsAndFooterLinks() {
       if (buttonId === "add-task-button") {
         attachEventListenersToAddModalButtonsAndDropDowns();
         addModal.show();
-      } if (buttonId === "delete-all-button") {
+      }
+      if (buttonId === "delete-all-button") {
         deleteAllTasks();
       } else if (buttonId === "check-all-button") {
-        // completeAllTasks();
+        completeAllTasks();
+      } else if (buttonId === "clear-completed-button") {
+        clearCompletedTasks();
       }
     });
   });
@@ -94,4 +108,11 @@ function attachEventListenersToAddModalButtonsAndDropDowns() {
   closeAddTaskModalBtn.addEventListener("click", function (e) {
     cleanSlate();
   });
+}
+
+export function attachEventListenersToAddModalButtonsAndDropDownsAndDeleteTaskButtons() {
+  const deleteTaskButtons = Array.from(
+    document.querySelectorAll(".delete-task")
+  );
+ 
 }

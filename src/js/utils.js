@@ -1,4 +1,5 @@
-import { clearTasks } from "./tasks-service.js";
+import { addTask, clearTasks, saveTasks, tasks } from "./tasks-service.js";
+import { addTasksInHTML } from "./tasks-view.js";
 
 export function getStatistics() {
   const tasksCount = document.querySelector("#task-left-count");
@@ -36,11 +37,23 @@ export function deleteAllTasks() {
   parent.appendChild(tasksContainerNew);
 }
 
-// export function completeAllTasks() {
-//   tasks.forEach(task => {
-//     task._status = "Completed";
-//   });
-// }
+export function completeAllTasks() {
+  const tasksCopy = tasks.slice();
+  deleteAllTasks();
+
+  tasksCopy.forEach((task) => {
+    addTasksInHTML(task.id, task.title, task.priority, "Completed");
+
+    addTask({
+        id: task.id,
+        title: task.title,
+        priority: task.priority,
+        status: "Completed",
+      });
+  });
+  getStatistics();
+  saveTasks();
+}
 
 export function removeTaskClasses() {
   const tasksAll = Array.from(document.querySelectorAll(".task-card"));
@@ -48,4 +61,22 @@ export function removeTaskClasses() {
   tasksAll.forEach((task) => {
     task.classList.remove("hide-element");
   });
+}
+
+export function clearCompletedTasks() {
+  const tasksCopy = tasks.slice();
+  deleteAllTasks();
+
+  tasksCopy.filter((task) => task.status !== "Completed").forEach((task) => {
+    addTasksInHTML(task.id, task.title, task.priority, task.status);
+    
+    addTask({
+        id: task.id,
+        title: task.title,
+        priority: task.priority,
+        status: task.status,
+      });
+  });
+  getStatistics();
+  saveTasks();
 }
