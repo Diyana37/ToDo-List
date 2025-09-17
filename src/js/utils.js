@@ -1,3 +1,4 @@
+import { attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons } from "./event-listeners.js";
 import { addTask, clearTasks, saveTasks, tasks } from "./tasks-service.js";
 import { addTasksInHTML } from "./tasks-view.js";
 
@@ -43,13 +44,14 @@ export function completeAllTasks() {
 
   tasksCopy.forEach((task) => {
     addTasksInHTML(task.id, task.title, task.priority, "Completed");
+    attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons();
 
     addTask({
-        id: task.id,
-        title: task.title,
-        priority: task.priority,
-        status: "Completed",
-      });
+      id: task.id,
+      title: task.title,
+      priority: task.priority,
+      status: "Completed",
+    });
   });
   getStatistics();
   saveTasks();
@@ -67,16 +69,41 @@ export function clearCompletedTasks() {
   const tasksCopy = tasks.slice();
   deleteAllTasks();
 
-  tasksCopy.filter((task) => task.status !== "Completed").forEach((task) => {
-    addTasksInHTML(task.id, task.title, task.priority, task.status);
-    
-    addTask({
+  tasksCopy
+    .filter((task) => task.status !== "Completed")
+    .forEach((task) => {
+      addTasksInHTML(task.id, task.title, task.priority, task.status);
+
+      addTask({
         id: task.id,
         title: task.title,
         priority: task.priority,
         status: task.status,
       });
-  });
+    });
   getStatistics();
   saveTasks();
+  attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons();
+}
+
+export function deleteTask(buttonId) {
+  const tasksCopy = tasks.slice();
+  deleteAllTasks();
+
+  tasksCopy
+    .filter((task) => `delete-task-${task.id}` !== buttonId)
+    .forEach((task) => {
+      addTasksInHTML(task.id, task.title, task.priority, task.status);
+
+      addTask({
+        id: task.id,
+        title: task.title,
+        priority: task.priority,
+        status: task.status,
+      });
+    });
+
+  getStatistics();
+  saveTasks();
+  attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons();
 }

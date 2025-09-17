@@ -5,6 +5,7 @@ import {
   clearCompletedTasks,
   completeAllTasks,
   deleteAllTasks,
+  deleteTask,
   getStatistics,
   removeTaskClasses,
 } from "./utils.js";
@@ -110,9 +111,14 @@ function attachEventListenersToAddModalButtonsAndDropDowns() {
   });
 }
 
-export function attachEventListenersToAddModalButtonsAndDropDownsAndDeleteTaskButtons() {
+export function attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons() {
   const deleteTaskButtons = Array.from(
     document.querySelectorAll(".delete-task")
   );
  
+  deleteTaskButtons.forEach(task => {
+    task.addEventListener("click", function (e) {
+      deleteTask(e.currentTarget.getAttribute("id"));
+    })
+  });
 }

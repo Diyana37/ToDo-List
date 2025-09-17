@@ -1,3 +1,4 @@
+import { attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons } from "./event-listeners.js";
 import { Task } from "./models.js";
 import { addTasksInHTML } from "./tasks-view.js";
 import { getStatistics } from "./utils.js";
@@ -49,6 +50,7 @@ export function addTaskInModal(priority, status) {
   });
 
   addTasksInHTML(task.id, task.title, task.priority, task.status);
+  attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons();
 
   getStatistics();
 }
