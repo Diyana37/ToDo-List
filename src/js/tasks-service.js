@@ -1,4 +1,4 @@
-import { attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons } from "./event-listeners.js";
+import { attachEventListenersToEditButtonsAndDeleteTaskButtons } from "./event-listeners.js";
 import { Task } from "./models.js";
 import { addTasksInHTML } from "./tasks-view.js";
 import { getStatistics } from "./utils.js";
@@ -31,7 +31,7 @@ export const loadTasks = () => {
   }
 };
 
-export function addTaskInModal(priority, status) {
+export function addTaskInModal() {
   const title = document.querySelector("#new-task-title");
 
   if (!title.value) {
@@ -39,7 +39,14 @@ export function addTaskInModal(priority, status) {
     return;
   }
 
+  const priorityText = document.querySelector("#priority-text");
+  const statusText = document.querySelector("#status-text");
+
+  const priority = priorityText.textContent === "Priority" ? "High" : priorityText.textContent;
+  const status = statusText.textContent === "Status" ? "Not-Started" : statusText.textContent;
+
   const newId = getNewId();
+
   let task = new Task(newId, title.value, priority, status);
 
   addTask({
@@ -50,7 +57,7 @@ export function addTaskInModal(priority, status) {
   });
 
   addTasksInHTML(task.id, task.title, task.priority, task.status);
-  attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons();
+  attachEventListenersToEditButtonsAndDeleteTaskButtons();
 
   getStatistics();
 }
