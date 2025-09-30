@@ -1,4 +1,4 @@
-import { attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons } from "./event-listeners.js";
+import { attachEventListenersToEditButtonsAndDeleteTaskButtons } from "./event-listeners.js";
 import { tasks } from "./tasks-service.js";
 import { getStatistics } from "./utils.js";
 
@@ -94,7 +94,7 @@ export function renderTasksInHTML() {
 
   tasks.forEach((task) => {
     addTasksInHTML(task.id, task.title, task.priority, task.status);
-    attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons();
+    attachEventListenersToEditButtonsAndDeleteTaskButtons();
   });
 
   getStatistics();

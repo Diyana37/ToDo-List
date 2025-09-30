@@ -1,4 +1,5 @@
-import { attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons } from "./event-listeners.js";
+import { attachEventListenersToEditButtonsAndDeleteTaskButtons } from "./event-listeners.js";
+import { Task } from "./models.js";
 import { addTask, clearTasks, saveTasks, tasks } from "./tasks-service.js";
 import { addTasksInHTML } from "./tasks-view.js";
 
@@ -44,7 +45,7 @@ export function completeAllTasks() {
 
   tasksCopy.forEach((task) => {
     addTasksInHTML(task.id, task.title, task.priority, "Completed");
-    attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons();
+    attachEventListenersToEditButtonsAndDeleteTaskButtons();
 
     addTask({
       id: task.id,
@@ -83,7 +84,56 @@ export function clearCompletedTasks() {
     });
   getStatistics();
   saveTasks();
-  attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons();
+  attachEventListenersToEditButtonsAndDeleteTaskButtons();
+}
+
+export function editTask() {
+  const editTaskIdInput = document.querySelector("#edit-task-id");
+  const buttonId = editTaskIdInput.value;
+
+  const tasksCopy = tasks.slice();
+
+  const targetIndex = tasksCopy.findIndex(
+    (task) => `edit-task-${task.id}` === buttonId
+  );
+
+  const task = tasksCopy.find((task) => `edit-task-${task.id}` === buttonId);
+
+  const title = document.querySelector("#edit-task-title");
+
+  if (!title.value) {
+    alert("Title is required!");
+    return;
+  }
+
+  const priorityText = document.querySelector("#edit-priority-text");
+
+  const statusText = document.querySelector("#edit-status-text");
+
+  let newTask = new Task(
+    task.id,
+    title.value,
+    priorityText.textContent,
+    statusText.textContent
+  );
+
+  tasksCopy.splice(targetIndex, 1, newTask);
+
+  deleteAllTasks();
+
+  tasksCopy.forEach((task) => {
+    addTask({
+      id: task.id,
+      title: task.title,
+      priority: task.priority,
+      status: task.status,
+    });
+
+    addTasksInHTML(task.id, task.title, task.priority, task.status);
+    attachEventListenersToEditButtonsAndDeleteTaskButtons();
+  });
+
+  getStatistics();
 }
 
 export function deleteTask(buttonId) {
@@ -105,5 +155,5 @@ export function deleteTask(buttonId) {
 
   getStatistics();
   saveTasks();
-  attachEventListenersToEditModalButtonsAndDropDownsAndDeleteTaskButtons();
+  attachEventListenersToEditButtonsAndDeleteTaskButtons();
 }
